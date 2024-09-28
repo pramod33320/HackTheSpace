@@ -1,0 +1,283 @@
+<ProfileScreen>:
+
+    person_name:person_name
+    weight:weight
+    person_height:person_height
+    birth:birth
+    substance:substance
+    goal:goal
+
+    GridLayout:
+        cols:1
+        size: root.width, root.height
+        padding: 20
+
+        Label:
+            text: "Profile Page"
+            height: 60
+            size_hint_y: None
+            font_size: 25
+
+        GridLayout:
+            cols:2
+            spacing: 40
+
+            Label:
+                text: "Enter your Name:"
+            TextInput:
+                id: person_name
+                multiline:False
+
+            Label:
+                text: "Enter your Weight(kg):"
+            TextInput:
+                id: weight
+                multiline:False
+
+            Label:
+                text: "Enter your Height(cm):"
+            TextInput:
+                id: person_height
+                multiline:False
+
+            Label:
+                text: "Enter your Date of Birth in\n (year/month/day) format:"
+            TextInput:
+                id: birth
+                multiline:False
+
+            Label:
+                text: "Choose the substance and your\n maximum weekly intake target:"
+
+            GridLayout:
+                cols:2
+                spacing: 10
+
+                Spinner:
+                    id:substance
+                    text: "Choose Substance"
+                    values: ["Alcohol","Coffee","Nicotine"]
+
+                TextInput:
+                    id: goal
+                    multiline:False
+
+
+            Button:
+                text: "Return to Menu"
+                on_press: root.return_to_menu()
+            Button:
+                text: root.submit_button_text
+                on_press: root.Submit()
+
+<LoggingScreen>:
+
+    substance:substance
+    amount:amount
+    cost:cost
+    specific_name:specific_name
+
+    GridLayout:
+        cols:1
+        padding: 20
+        size: root.width, root.height
+
+        Label:
+            text: "Please enter your intake below:"
+            font_size: 20
+            size_hint_y: None
+            height: 80
+
+        GridLayout:
+            cols:2
+
+            GridLayout:
+                cols:1
+                size: root.width, root.height
+
+                GridLayout:
+                    cols:2
+                    spacing: 5
+
+                    Label:
+                        text: "Select the Substance:"
+                    Spinner:
+                        id:substance
+                        text: "Choose Substance"
+                        values: ["Alcohol","Coffee","Nicotine"]
+                        on_text: root.spinner_clicked(substance.text)
+
+                    Label:
+                        text: "Enter the amount taken:"
+                    TextInput:
+                        id: amount
+                        multiline:False
+
+                    Label:
+                        text: "Enter how much it cost (£):"
+                    TextInput:
+                        id: cost
+                        multiline:False
+
+                    Label:
+                        text: "Enter the specific type (if any):"
+                    TextInput:
+                        id: specific_name
+                        multiline:False
+
+        GridLayout:
+            cols:2
+            spacing: 40
+            padding: 10
+
+            Label:
+                text: "Presets:"
+
+            SubstancePresets:
+                spacing: 5
+                rows: 4
+                cols: 1
+
+        GridLayout:
+            cols:2
+            spacing: 5
+            size_hint_y: None
+            height: 40
+
+            Button:
+                text: "Return to Menu"
+                on_press: root.manager.current = 'menu'
+
+            Button:
+                text: "Submit"
+                on_press: root.Submit()
+
+<GoalsScreen>:
+    GridLayout:
+        cols:1
+        size: root.width, root.height
+        padding: 20
+        spacing:30
+
+        Label:
+            text: "Goals Page"
+            height: 60
+            size_hint_y: None
+            font_size: 25
+
+        GridLayout:
+            cols:2
+            spacing:30
+
+            Label:
+                text: "Target Substance:"
+
+            Label:
+                text: root.target_substance
+
+            Label:
+                text: "Target Weekly Intake:"
+
+            Label:
+                text: root.weekly_intake
+
+            Label:
+                text: "Target Set On:"
+
+            Label:
+                text: root.target_set_on
+
+            Label:
+                text: "Total Days Target Achieved:"
+
+            Label:
+                text: root.total_days
+
+
+            Button:
+                text: "Return to Menu"
+                on_press: root.manager.current = 'menu'
+
+            Button:
+                text: "Update Goal"
+                on_press: root.manager.current = 'profile'
+
+<GraphScreen>:
+    GridLayout:
+        cols:1
+        padding: 20
+        spacing: 20
+
+        GraphSubstanceButtons:
+            size_hint_y: None
+            height: 40
+
+        SubstanceGraph
+        CostGraph
+
+        Button:
+            text: "Return to Menu"
+            size_hint_y: None
+            size_hint_x: None
+            height: 40
+            width: 200
+            on_press: root.manager.current = 'menu'
+
+<MenuScreen>:
+    GridLayout:
+        cols: 1
+        padding: 20
+
+        Label:
+            text: "Welcome to our Addiction Recovery App"
+            font_size: 20
+            size_hint_y: None
+            height: 80
+
+        GridLayout:
+            cols: 2
+
+            GridLayout:
+                cols: 1
+                spacing: 5
+
+                Button:
+                    text: "Profile"
+                    on_press: root.manager.current = 'profile'
+
+                Button:
+                    text: "Goals"
+                    on_press: root.manager.current = 'goals'
+
+                Button:
+                    text: "Logging"
+                    on_press: root.manager.current = 'logging'
+
+
+                Button:
+                    text: "Graphs"
+                    on_press: root.manager.current = 'graph'
+
+                Button:
+                    text: "Exit App"
+                    on_press: app.stop()
+
+            GridLayout:
+                cols:1
+
+                GridLayout:
+                    cols:1
+                    size_hint_y: 0.3
+
+                    Label:
+                        text: "Summary Statistics:"
+
+                    Label:
+                        text: root.goal_text
+                    Label:
+                        text: root.cost_text
+
+                BoxLayout:
+                    padding: 10
+                    Image:
+                        source: root.image_source
